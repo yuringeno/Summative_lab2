@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Pipenv
+# Keep Pipfile.lock tracked for reproducible environments.
+
+# Virtual environments
+venv/
+.env
+.env.*
+instance/
+
+# SQLite database
+app.db
+*.db
+
+# Flask
+*.log
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+
+# Test outputs
+.pytest_cache/
+coverage.xml
