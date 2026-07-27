@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Seed script to populate the database with example data for all models."""
 
+from datetime import date
+
 from app import app
 from app.models import db, Workout, Exercise, WorkoutExercise
 
@@ -14,33 +16,33 @@ def seed_database():
         print("Creating exercises...")
         push_up = Exercise(
             name="Push Up",
-            description="A classic bodyweight chest exercise.",
-            category="Strength"
+            category="Strength",
+            equipment_needed=False
         )
         squat = Exercise(
             name="Squat",
-            description="A fundamental lower body exercise.",
-            category="Strength"
+            category="Strength",
+            equipment_needed=False
         )
         plank = Exercise(
             name="Plank",
-            description="A core stability exercise.",
-            category="Core"
+            category="Core",
+            equipment_needed=False
         )
         jumping_jack = Exercise(
             name="Jumping Jack",
-            description="A full-body cardio warm-up exercise.",
-            category="Cardio"
+            category="Cardio",
+            equipment_needed=False
         )
         bicep_curl = Exercise(
             name="Bicep Curl",
-            description="An isolation exercise for biceps using dumbbells.",
-            category="Strength"
+            category="Strength",
+            equipment_needed=True
         )
         lunges = Exercise(
             name="Lunges",
-            description="A compound lower body exercise.",
-            category="Strength"
+            category="Strength",
+            equipment_needed=False
         )
 
         exercises = [push_up, squat, plank, jumping_jack, bicep_curl, lunges]
@@ -51,16 +53,19 @@ def seed_database():
 
         print("Creating workouts...")
         full_body = Workout(
-            name="Full Body Blast",
-            description="A comprehensive full body workout for all fitness levels."
+            date=date(2026, 7, 27),
+            duration_minutes=60,
+            notes="A comprehensive full body workout for all fitness levels."
         )
         core_strength = Workout(
-            name="Core Crusher",
-            description="Focus on building a strong core and improving stability."
+            date=date(2026, 7, 28),
+            duration_minutes=45,
+            notes="Focus on building a strong core and improving stability."
         )
         cardio_burn = Workout(
-            name="Cardio Burn",
-            description="High-intensity cardio workout to burn calories."
+            date=date(2026, 7, 29),
+            duration_minutes=30,
+            notes="High-intensity cardio workout to burn calories."
         )
 
         workouts = [full_body, core_strength, cardio_burn]
@@ -92,7 +97,7 @@ def seed_database():
             workout=core_strength,
             exercise=plank,
             sets=3,
-            duration=60
+            duration_seconds=60
         )
         we5 = WorkoutExercise(
             workout=core_strength,
@@ -104,13 +109,13 @@ def seed_database():
             workout=cardio_burn,
             exercise=jumping_jack,
             sets=3,
-            duration=90
+            duration_seconds=90
         )
         we7 = WorkoutExercise(
             workout=cardio_burn,
             exercise=plank,
             sets=3,
-            duration=45
+            duration_seconds=45
         )
 
         associations = [we1, we2, we3, we4, we5, we6, we7]
