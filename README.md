@@ -73,8 +73,9 @@ The server will start at `http://localhost:5000` (or port 5555 if using `python 
 **POST /workouts** request body:
 ```json
 {
-  "name": "Full Body Blast",
-  "description": "A comprehensive full body workout"
+  "date": "2026-07-27",
+  "duration_minutes": 60,
+  "notes": "A comprehensive full body workout"
 }
 ```
 
@@ -91,8 +92,8 @@ The server will start at `http://localhost:5000` (or port 5555 if using `python 
 ```json
 {
   "name": "Push Up",
-  "description": "A classic bodyweight exercise",
-  "category": "Strength"
+  "category": "Strength",
+  "equipment_needed": false
 }
 ```
 
@@ -100,37 +101,39 @@ The server will start at `http://localhost:5000` (or port 5555 if using `python 
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `POST` | `/workouts/<workout_id>/exercises` | Add an existing exercise to a workout with metrics |
+| `POST` | `/workouts/<workout_id>/exercises/<exercise_id>/workout_exercises` | Add an existing exercise to a workout with metrics |
 
-**POST /workouts/<workout_id>/exercises** request body:
+**POST /workouts/<workout_id>/exercises/<exercise_id>/workout_exercises** request body:
 ```json
 {
-  "exercise_id": 1,
   "sets": 3,
-  "reps": 15
+  "reps": 15,
+  "duration_seconds": 120
 }
 ```
 
-At least one metric (`sets`, `reps`, or `duration`) must be provided.
+At least one metric (`sets`, `reps`, or `duration_seconds`) must be provided.
 
 ## Validations
 
 ### Table Constraints
-- `UNIQUE(name)` on exercises - prevents duplicate exercise names
-- `CHECK(sets > 0)` - ensures sets are positive
-- `CHECK(reps > 0)` - ensures reps are positive
-- `CHECK(duration > 0)` - ensures duration is positive
+- `UNIQUE(name)` on `Exercise` prevents duplicate exercise names
+- `CHECK(duration_minutes > 0)` on `Workout` ensures positive workout duration
+- `CHECK(sets > 0)` ensures sets are positive
+- `CHECK(reps > 0)` ensures reps are positive
+- `CHECK(duration_seconds > 0)` ensures exercise duration is positive
 
 ### Model Validations
-- Workout name cannot be empty
-- Exercise name cannot be empty
-- At least one metric (sets/reps/duration) must be provided for workout-exercise associations
+- `Workout.date` must be present
+- `Workout.duration_minutes` must be positive when provided
+- `Exercise.name` must not be empty
+- `WorkoutExercise` must include at least one metric (`sets`, `reps`, or `duration_seconds`)
 
 ### Schema Validations
-- Names must be between 1-100 characters
-- Sets, reps, and duration must be positive integers
-- Custom `not_empty` validator for string fields
-- At least one metric required via `@pre_load` decorator
+- Exercise name must be 1-100 characters and not blank
+- Workout duration must be positive when provided
+- `equipment_needed` is required for exercises
+- WorkoutExercise requires at least one of `sets`, `reps`, or `duration_seconds`
 
 ## Project Structure
 
